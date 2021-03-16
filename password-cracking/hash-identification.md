@@ -1,0 +1,2 @@
+# Identifying hash types
+
