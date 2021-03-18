@@ -2,7 +2,7 @@
 
 ## Background
 
-There are a large number of hash types used for different purposes. Popular hashing algorithms include md5, sha1, bcyrpt etc. Some hashes are universal and used for a variety of purposes and some hashes are used only in certain applications (eg. MySQL) and protocols. This short writeup will shed some light on how you can identify hash types so you can crack them in an appropriate manner.
+There are a large number of hash types used for different purposes such as verifying file integrity, PBKDF2 to hash passwords etc. Popular hashing algorithms include md5, sha1, bcyrpt etc. Some hashes are universal and used for a variety of purposes and some hashes are used only in certain applications (eg. MySQL) and protocols. This short writeup will shed some light on how you can identify hash types so you can crack them in an appropriate manner.
 
 ## Manually guessing hash types
 
