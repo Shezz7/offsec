@@ -4,7 +4,7 @@ Once we identify the type of the hash, we look at techniques to attempt to crack
 
 ## Hashcat
 
-[https://github.com/hashcat/hashcat](hashcat) is an open source password cracking tool with over 300 supported hash algorithms. It provides a number of different ways to perform the cracking (attack modes). Hashcat supports the following attack modes:
+[hashcat]([hashcat](https://github.com/hashcat/hashcat)) is an open source password cracking tool with over 300 supported hash algorithms. It provides a number of different ways to perform the cracking (attack modes). Hashcat supports the following attack modes:
 
 | **#** | **Attack mode** |
 |------------|-------------
