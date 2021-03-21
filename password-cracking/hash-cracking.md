@@ -6,7 +6,7 @@ Once we identify the type of the hash, we look at techniques to attempt to crack
 
 [Hashcat]([hashcat](https://github.com/hashcat/hashcat)) is an open source password cracking tool with over 300 supported hash algorithms. It provides a number of different ways to perform the cracking (attack modes). The help page of hashcat, along with basic usage and some options is shown below:
 
-```bash
+```console
 $ hashcat -h
 hashcat (v6.1.1-120-g15bf8b730) starting...
 
@@ -45,7 +45,7 @@ Hashcat supports the following attack modes:
 
 Hashcat has the option to show example hashes of the different hash types it supports including the hashcat mode number.
 
-```bash
+```console
 $ hashcat --example-hashes | head -n 21
 hashcat (v6.1.1-120-g15bf8b730) starting...
 
@@ -77,7 +77,7 @@ $ hashcat --example-hashes | grep MODE | wc -l
 
 You can test how many hashes per second your hardware is capable of producing (for a specific hash type) by running the following:
 
-```bash
+```console
 $ hashcat -b -m 0
 hashcat (v6.1.1-120-g15bf8b730) starting in benchmark mode...
 

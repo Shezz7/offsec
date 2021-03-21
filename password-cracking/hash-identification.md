@@ -34,10 +34,10 @@ Disclaimer: You cannot always be sure about what the hash type is because the pl
 
 **Basic Usage:**
 
-```bash
+```console
 $ ./hashid.py -m "098f6bcd4621d373cade4e832627b4f6" # -m shows the hashcat mode
 Analyzing '098f6bcd4621d373cade4e832627b4f6'
-[+] MD2 
+[+] MD2
 [+] MD5 [Hashcat Mode: 0]
 [+] MD4 [Hashcat Mode: 900]
 [+] Double MD5 [Hashcat Mode: 2600]
@@ -50,8 +50,8 @@ Analyzing '098f6bcd4621d373cade4e832627b4f6'
 
 **Basic Usage:**
 
-```bash
-$ python Hash_ID.py 
+```console
+$ python Hash_ID.py
 HASH: 098f6bcd4621d373cade4e832627b4f6
 
 Possible Hashes:
@@ -73,7 +73,7 @@ Least Possible Hashes:
 
 **Note:** While creating hashes using md5sum and echo, be sure to use `echo -n`. The `-n` in echo terminates newlines. For example:
 
-```bash
+```console
 $ echo "test" | md5sum
 d8e8fca2dc0f896fd7cb4cb0031ba249  -
 $ echo -n "test" | md5sum
