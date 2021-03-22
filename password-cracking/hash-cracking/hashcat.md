@@ -107,7 +107,7 @@ Lets have a deeper look at each of the hashcat attack types.
 
 It uses a wordlist, generates the hashes of the words in the wordlist and compares them to the hash that needs to be cracked. The best source to lists of leaked usernames, passwords, wordlists (you name it!) is [SecLists](https://github.com/danielmiessler/SecLists).
 
-Syntax
+**Syntax:**
 
 ```console
 hashcat -a 0 -m <hash_type_id> <hash_to_crack || hash_file> <wordlist>
@@ -117,7 +117,7 @@ hashcat -a 0 -m <hash_type_id> <hash_to_crack || hash_file> <wordlist>
 
 It takes two separate wordlists as input and creates combinations from them. For example if wordlist1 has 4 words and wordlist2 has 2 words then hashcat generates hashes for a total of 4 x 2 = 8 words.
 
-Syntax
+**Syntax:**
 
 ```console
 hashcat -a 1 -m <hash_type_id> <hash_to_crack> <wordlist1> <wordlist2>
@@ -140,7 +140,7 @@ Masks can be used to match words that have a specific pattern. They are the most
 
 Hashcat also provides the ability to define custom charsets which are described by the notations **-1** to **-4**. For example, to define multiple custom charsets of alphabets and numbers we can use '```-1 abcdfgke -2 3456```'. An example of a masked word for a number that represents a year between 2000-2009 would be ```200?d```.
 
-Syntax
+**Syntax:**
 
 ```console
 hashcat -a 3 -m <hash_type_id> <hash_to_crack> <custom_charsets> <masked_word>
@@ -150,10 +150,10 @@ hashcat -a 3 -m <hash_type_id> <hash_to_crack> <custom_charsets> <masked_word>
 
 Hybrid mode is similar to the combination attack. It uitilizes multiple modes to generate wordlists. This mode is useful when you have a good idea about the length and structure of the password. There are two different kinds of attack modes under this mode:
 
-- 6: Words from the wordlist are read and a string is appended to them based on the mask provided
-- 7: Words from the wordlist are prepended with words that are generated through a given mask
+- -6: Words from the wordlist are read and a string is appended to them based on the mask provided
+- -7: Words from the wordlist are prepended with words that are generated through a given mask
 
-Syntax
+**Syntax:**
 
 To append, the syntax is as follows:
 
@@ -165,6 +165,7 @@ For example to append 2 digits and a lowercase letter to a wordlist we do the fo
 
 ```console
 hashcat -a 6 -m <hash_type_id> <hash_to_crack> <wordlist> '?d?d?l'
+```
 
 To prepend, the syntax is as follows:
 
