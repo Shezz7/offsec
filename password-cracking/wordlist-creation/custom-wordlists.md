@@ -12,7 +12,7 @@ Hashcat provides a few ways to create custom wordlists. Some of these include:
 
 ### Cracked passoword history
 
-
+Hashcat stores previously cracked passwords in a file called the potfile. It stores it in the format ```hash:password```. It can be used to generate new wordlists. Additionally, masks can be applied on them to make more complex wordlists.
 
 ## Crunch
 
