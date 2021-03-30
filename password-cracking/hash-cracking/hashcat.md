@@ -178,3 +178,33 @@ For example, to prepend 2 digits and a lowercase letter to a wordlist we do the 
 ```console
 hashcat -a 7 -m <hash_type_id> <hash_to_crack> <custom_charset> '?d?d?l' <wordlist>
 ```
+
+## Hashcat Rules
+
+Rules help you perform various functions on the input wordlist such as reversing, prefixing/suffixing characters, changing letters to special characters etc. The following table describes some rule functions: (full list [here](https://hashcat.net/wiki/doku.php?id=rule_based_attack#implemented_compatible_functions))
+
+| **Function** | **Description** |
+|----------|-------------------------------|
+|    l     | Convert all letters to lowercase |
+|    u     | Convert all letters to uppercase |
+|   c/C    | capitalize / lowercase first letter and invert the rest |
+|   t/TN   | Toggle case : whole word / at position N |
+| d/q/zN/ZN| Duplicate word / all characters / first character / last character |
+|   {/}    | Rotate word left / right |
+|  ^X/$X   | Prepend / Append character X |
+|    r     | Reverse |
+
+### Sample rule creation
+
+For example if a company has a password policy that ends with the current year eg. 2021, then we use the following rules on a wordlist:
+
+```c so0 si1 s5$ se3 $2 $0 $2 $1```
+
+The first letter of the word is capital and then the rule uses the substitute ffunction ```s``` to substitute the letter with the special characters.
+
+To test combinations in hashcat you can use the following syntax:
+
+```console
+$echo 'c so0 si1 s5$ se3 $2 $0 $2 $1' > rule.txt
+$hashcat -r rule.txt <wordlist> --stdout
+```
