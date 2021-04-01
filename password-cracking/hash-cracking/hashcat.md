@@ -153,9 +153,9 @@ Hybrid mode is similar to the combination attack. It uitilizes multiple modes to
 - -6: Words from the wordlist are read and a string is appended to them based on the mask provided
 - -7: Words from the wordlist are prepended with words that are generated through a given mask
 
-**Syntax:**
-
 To append, the syntax is as follows:
+
+**Syntax:**
 
 ```console
 hashcat -a 6 -m <hash_type_id> <hash_to_crack> <wordlist> <mask_append>
@@ -204,7 +204,63 @@ The first letter of the word is capital and then the rule uses the substitute ff
 
 To test combinations in hashcat you can use the following syntax:
 
+**Syntax:**
+
 ```console
 $echo 'c so0 si1 s5$ se3 $2 $0 $2 $1' > rule.txt
 $hashcat -r rule.txt <wordlist> --stdout
 ```
+
+### Cracking hashes using rules
+
+To crack hashes using rules do the following:
+
+**Syntax:**
+
+```console
+$hashcat -a 0 -m <hash_id> <hash_to_crack> <path_to_wordlist> -r <path_to_rules_file>
+```
+
+### Hashcat default rules
+
+Hashcat has a lot of prebuilt rulesets that are usually better to try before building your own ruleset:
+
+```console
+$ls -l /usr/share/hashcat/rules/
+
+total 2576
+-rw-r--r-- 1 root root    933 Jun 19 06:20 best64.rule
+-rw-r--r-- 1 root root    633 Jun 19 06:20 combinator.rule
+-rw-r--r-- 1 root root 200188 Jun 19 06:20 d3ad0ne.rule
+-rw-r--r-- 1 root root 788063 Jun 19 06:20 dive.rule
+-rw-r--r-- 1 root root 483425 Jun 19 06:20 generated2.rule
+-rw-r--r-- 1 root root  78068 Jun 19 06:20 generated.rule
+drwxr-xr-x 1 root root   2804 Jul  9 21:01 hybrid
+-rw-r--r-- 1 root root 309439 Jun 19 06:20 Incisive-leetspeak.rule
+-rw-r--r-- 1 root root  35280 Jun 19 06:20 InsidePro-HashManager.rule
+-rw-r--r-- 1 root root  19478 Jun 19 06:20 InsidePro-PasswordsPro.rule
+-rw-r--r-- 1 root root    298 Jun 19 06:20 leetspeak.rule
+-rw-r--r-- 1 root root   1280 Jun 19 06:20 oscommerce.rule
+-rw-r--r-- 1 root root 301161 Jun 19 06:20 rockyou-30000.rule
+-rw-r--r-- 1 root root   1563 Jun 19 06:20 specific.rule
+-rw-r--r-- 1 root root  64068 Jun 19 06:20 T0XlC-insert_00-99_1950-2050_toprules_0_F.rule
+-rw-r--r-- 1 root root   2027 Jun 19 06:20 T0XlC-insert_space_and_special_0_F.rule
+-rw-r--r-- 1 root root  34437 Jun 19 06:20 T0XlC-insert_top_100_passwords_1_G.rule
+-rw-r--r-- 1 root root  34813 Jun 19 06:20 T0XlC.rule
+-rw-r--r-- 1 root root 104203 Jun 19 06:20 T0XlCv1.rule
+-rw-r--r-- 1 root root     45 Jun 19 06:20 toggles1.rule
+-rw-r--r-- 1 root root    570 Jun 19 06:20 toggles2.rule
+-rw-r--r-- 1 root root   3755 Jun 19 06:20 toggles3.rule
+-rw-r--r-- 1 root root  16040 Jun 19 06:20 toggles4.rule
+-rw-r--r-- 1 root root  49073 Jun 19 06:20 toggles5.rule
+-rw-r--r-- 1 root root  55346 Jun 19 06:20 unix-ninja-leetspeak.rule
+```
+
+### Generate random hashcat rules
+
+Hashcat also has the option to create random rules on the fly and apply it on a wordlist. The ```-g``` flag will generate x random rules and apply them to the worldlist selected
+
+**Syntax:**
+
+```console
+$hashcat -a 0 -m <hash_id> -g 100 <hash_to_crack> <path_to_wordlist>
