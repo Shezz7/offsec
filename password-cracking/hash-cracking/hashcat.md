@@ -264,3 +264,4 @@ Hashcat also has the option to create random rules on the fly and apply it on a 
 
 ```console
 $hashcat -a 0 -m <hash_id> -g 100 <hash_to_crack> <path_to_wordlist>
+```
