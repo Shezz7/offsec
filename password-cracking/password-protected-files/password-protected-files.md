@@ -37,3 +37,6 @@ We can use the [pdf2john.py](https://raw.githubusercontent.com/truongkma/ctf-too
 ```console
 python pdf2john.py testpdf.pdf
 ```
+## Cracking extracted hashes with Hashcat
+
+Once we have the extracted hashes we can find their respective Hashcat identifiers using `hashid -m` and then utilize the variety of hash cracking techniques supported by hashcat
