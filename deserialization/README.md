@@ -6,13 +6,13 @@
 
 Some popular formats for serializing data include JSON and XML.
 
-# Problem
+## Problem
 
 Many programming languages offer a native capability for serializing objects. These native formats usually offer more features than JSON or XML. Some of these capabilities include the customizability of the serialization process for example, magic functions run during serialization or deserialization.
 
 Insecure deserialization vulnerabilities occur when applications deserialize objects without proper sanitization. When operating on untrusted data, the features of thse native deserialization mechanisms can be leverage by a malicious actor. The attack against insecure deserialization have a wide gamut from denial-of-service to RCE.
 
-# Mitigation
+## Mitigation
 
 Mitigation actions specific to different programming languages will be covered in their respective sections. There are a couple of langague agnostic methods for deserializing safely. These include:
 
