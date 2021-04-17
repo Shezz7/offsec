@@ -88,7 +88,7 @@ Let's have a closer look at the unserialize method
 
 ### PHP magic methods
 
-PHP magic methods are functions that have special properties. All PHP magic methods are defined [here](https://www.php.net/manual/en/language.oop5.magic.php). The magic methods most relevant to deserialization vulnerabilities are ```__wakeup()``` and ```__destruct()```. These methods are executed automatically as soon as unserialize() is called on an object.
+PHP magic methods are functions that have special properties. All PHP magic methods are defined [here](https://www.php.net/manual/en/language.oop5.magic.php). The magic methods most relevant to deserialization vulnerabilities is the ```__wakeup()``` method. This method is executed automatically as soon as unserialize() is called on an object.
 
 Essentially, there are 3 broad steps when working with PHP objects. The object is instantiated, some operations are performed on/with the object and finally the object is destroyed:
 
@@ -104,3 +104,30 @@ The object is used by the program and some operations/actions may be performed u
 
 When no reference to the object exists ```__destruct()``` is called to clean up the object
 
+## Exploiting PHP deserialization
+
+When an attacker has control over a serialized string that is passed into the ```unserialize()``` method, they control the properties of the created object. Another thing that is possible is to control the flow of the program by manipulating the values passed into magic methods such as ```__wakeup()```.
+
+This technique is called PHP object injection. PHP object injection can lead to variable manipulation, RCE, SQL injection etc.
+
+### Modifying properties
+
+One possible way of exploiting a PHP object injection vulnerabilities is modifying the properties in a serialized object and passing that as input. eg. if we have the following serialized object:
+
+```O:4:"User":3:{s:8:"username";s:3:"bob";s:4:"role";s:5:"user";}```
+
+We could potentially pass in the string by changing the ```role``` property which defines the privilege of the username "bob" as follows:
+
+```O:4:"User":3:{s:8:"username";s:3:"bob";s:4:"role";s:5:"admin";}```
+
+### Remote code execution
+
+It may be possible to get RCE using PHP object injection through one of the magic methods. For example if we have the following ```__wakeup()``` function:
+
+```php
+function __wakeup(){
+      if (isset($this->hook)) eval($this->hook);
+  }
+```
+
+This function executes whatever is inside the ```hook``` property within the object that is undergoing deserialization. If we were able to control the input to the object undergoing deserialization, we could effectively acheive RCE.
