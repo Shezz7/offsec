@@ -81,3 +81,26 @@ string(3) "bob"
 string(5) "admin"
 string(12) "199001016666"
 ```
+
+## Exploring the unserialize() method
+
+Let's have a closer look at the unserialize method
+
+### PHP magic methods
+
+PHP magic methods are functions that have special properties. All PHP magic methods are defined [here](https://www.php.net/manual/en/language.oop5.magic.php). The magic methods most relevant to deserialization vulnerabilities are ```__wakeup()``` and ```__destruct()```. These methods are executed automatically as soon as unserialize() is called on an object.
+
+Essentially, there are 3 broad steps when working with PHP objects. The object is instantiated, some operations are performed on/with the object and finally the object is destroyed:
+
+#### Instantiate object
+
+The unserialize() method takes a serialized string as input and creates an instance of a class in memory. It then searches for the ```__wakeup()``` function to reconstruct any resources that the object may have. The ```__wakeup()``` method is typically used to reestablish database connections that may have been lost during serialization and to perform other reinitializations.
+
+#### Use object
+
+The object is used by the program and some operations/actions may be performed using it.
+
+#### Destroy object
+
+When no reference to the object exists ```__destruct()``` is called to clean up the object
+
