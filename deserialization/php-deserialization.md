@@ -1,12 +1,10 @@
-# Serialization in php
+# PHP Deserialization Exploitation
+
+## Serialization in php
 
 When a PHP object is stored or transferred over the network, you need to use ```serialize()``` to pack it up.
 
 ```serialize(): \<PHP object\> => plain string representation of the object```
-
-When the data needs to be used, ```unserialize()``` is used to unpack and get the underlying object.
-
-```unserialize(): \<string containing object data\> => original PHP object```
 
 Here's an example code snippet to demonstrate what PHP serialization looks like:
 
@@ -35,3 +33,6 @@ Running the code we get a serialized string that represents the ```user``` objec
 Where O is object and s is string. This is in the format:
 
 ```O:LENGTH_OF_OBJ_NAME:"CLASS_NAME":NUMBER_OF_PROPERTIES:{PROPERTIES}```
+
+## Deserialization in php
+
