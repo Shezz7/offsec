@@ -16,10 +16,10 @@ Insecure deserialization vulnerabilities occur when applications deserialize obj
 
 Mitigation actions specific to different programming languages will be covered in their respective sections. There are a couple of langague agnostic methods for deserializing safely. These include:
 
-## Using alternative data formats
+### Using alternative data formats
 
 A major reduction of risk is achieved by avoiding native serialization and deserialization formats. By switching to a pure data format such as JSON or XML, the chances of custom deserialization logic used maliciously is reduced.
 
-## Only deserialize signed data
+### Only deserialize signed data
 
 If it is known by the application which messages will need to be processed before deserialization, those message could be signed as part of the serialization process. The application could then refuse to deserialize any message which doesn't have an authenticated signature
