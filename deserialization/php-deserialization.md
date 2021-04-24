@@ -2,7 +2,7 @@
 
 ## Serialization in php
 
-When a PHP object is stored or transferred over the network, you need to use ```serialize()``` to pack it up.
+When a PHP object is stored or transferred over the network, the default serialization method is to use ```serialize()``` to pack it up.
 
 ```serialize(): \<PHP object\> => plain string representation of the object```
 
