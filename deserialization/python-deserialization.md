@@ -11,11 +11,9 @@ Here's an example code snippet to demonstrate what serialization with pickle loo
 ```python
 import pickle
 
-
 class User(object):
     username = 'bob'
     role = 'admin'
-
 
 pickled_data = pickle.dumps(User)
 
@@ -43,14 +41,12 @@ Here's an example to demonstrate deserialization with pickle:
 ```python
 import pickle
 
-
 class User(object):
     username = 'bob'
     role = 'admin'
 
 pickled_data = pickle.dumps(User)
 unpickled_data = pickle.loads(pickled_data)
-
 
 print(type(unpickled_data))
 print(unpickled_data.username)
@@ -78,11 +74,9 @@ For the special cases where an object cannot be pickled, pickle allows you to de
 ```python
 import pickle
 
-
 class Demo(object):
     def __init__(self, file_path):
         self.some_random_file = open(file_path, 'wb')    # Open a file in write mode
-
 
 file_tester = Demo('/home/bob/test.txt')
 pickle.dumps(file_tester)    # Attempt to serialize an object containing a file descriptor
