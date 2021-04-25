@@ -1,4 +1,4 @@
-# Python Deserialization Exploitation
+# Python Pickle Deserialization Exploitation
 
 ## Serialization in python
 
@@ -86,9 +86,43 @@ As expected we get the following error:
 
 ```console
 Traceback (most recent call last):
-  File "/Users/shehzaad.saifulla/src/offsec/deserialization/test.py", line 22, in <module>
+  File "test.py", line 22, in <module>
     pickle.dumps(file_tester)                   # Attempt to serialize an object containing a file descriptor
 TypeError: cannot pickle '_io.BufferedWriter' object
 ```
 
 This is where the ```__reduce__()``` method comes into play. We can define how we want pickle to serialize this object.
+
+```python
+import pickle
+
+class Demo(object):
+    def __init__(self, file_path):
+        self.some_file = file_path
+        self.some_random_file = open(file_path, 'wb')    # Open a file in write mode
+
+    def __reduce__(self):
+        return(self.__class__, (self.some_file, ))     # Pass a blank object class and a tuple to pass to the class constructor
+
+file_tester = Demo('/home/bob/test.txt')
+saved_object = pickle.dumps(file_tester)    # Attempt to serialize an object containing a file descriptor
+
+print("Serialized: ")
+print(saved_object)
+print("Deserialized: ")
+print(vars(pickle.loads(saved_object)))    # Print vars of the deserialized object including the file descriptor
+```
+
+The ```__reduce__()``` method according to the python [docs](https://docs.python.org/3/library/pickle.html#object.__reduce__) needs a tuple of atleast 2 things:
+
+1. A blank object class to call. In this case, ```self.__class__```
+2. A tuple of arguments to pass to the class constructor. In this case it is a single string ```self.some_file``` which is the path to the file to open.
+
+This time around we see that the object has been serialized. We deserialize it soon after and the output is as follows:
+
+```console
+Serialized:
+b'\x80\x04\x95#\x00\x00\x00\x00\x00\x00\x00\x8c\x08__main__\x94\x8c\x04Demo\x94\x93\x94\x8c\x07/home/bob/test.txt\x94\x85\x94R\x94.'
+Deserialized:
+{'some_file': '/home/bob/test.txt', 'some_random_file': <_io.BufferedWriter name='/home/bob/test.txt'>}
+```
