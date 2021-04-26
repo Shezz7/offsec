@@ -19,7 +19,7 @@ Insecure deserialization vulnerabilities occur when applications deserialize obj
 Many programming languages offer a native capability for serializing objects. These native formats usually offer more features than JSON or XML. Some of these capabilities include the customizability of the serialization process for example, magic functions run during serialization or deserialization. For programming language specific explanation of deserialization vulnerabilities:
 
 - [PHP](https://github.com/Shezz7/offsec/blob/master/deserialization/php-deserialization.md)
-- Python
+- [Python](https://github.com/Shezz7/offsec/blob/master/deserialization/python-deserialization.md)
 
 ## Mitigation
 
