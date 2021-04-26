@@ -1,6 +1,7 @@
+
 # Insecure Deserialization
 
-![serialize_deserialize](https://github.com/Shezz7/offsec/blob/master/deserialization/resources/serialize_deserialize.png)
+![serialize_deserialize](https://github.com/Shezz7/offsec/blob/master/insecure-deserialization/resources/serialize_deserialize.png)
 
 **Serialization** is the process of turning some object into a data format that can be restored later. Objects are often serialized in order to save them to storage or to send as part of communications.
 
@@ -10,7 +11,7 @@ Some popular formats for serializing data include JSON and XML.
 
 ## Problem
 
-![serialize_deserialize](https://github.com/Shezz7/offsec/blob/master/deserialization/resources/malicious.png)
+![serialize_deserialize](https://github.com/Shezz7/offsec/blob/master/insecure-deserialization/resources/malicious.png)
 
 Problems arise when an attacker has the ability to control and manipulate the serialized object and as a result cause malicious effects in the program. For example if an application takes in a serialized object as input from a user to determine the privileges of the user who is logged in, an attacker could modify the serialized object and authenticate as someone they are not. Unsafe deserialization could also lead to code execution in certain cases when an attacker embeds code into the serialized objects.
 
@@ -18,8 +19,8 @@ Insecure deserialization vulnerabilities occur when applications deserialize obj
 
 Many programming languages offer a native capability for serializing objects. These native formats usually offer more features than JSON or XML. Some of these capabilities include the customizability of the serialization process for example, magic functions run during serialization or deserialization. For programming language specific explanation of deserialization vulnerabilities:
 
-- [PHP](https://github.com/Shezz7/offsec/blob/master/deserialization/php-deserialization.md)
-- [Python](https://github.com/Shezz7/offsec/blob/master/deserialization/python-deserialization.md)
+- [PHP](https://github.com/Shezz7/offsec/blob/master/insecure-deserialization/php-deserialization.md)
+- [Python](https://github.com/Shezz7/offsec/blob/master/insecure-deserialization/python-deserialization.md)
 
 ## Mitigation
 
