@@ -162,3 +162,10 @@ On deserialization, the reduce method is called and as a result, code is execute
 $ python3 test.py
 PWNED!!!
 ```
+
+## Detecting python deserialization vulnerabilities
+
+There are 2 main ways to detect if python serialization was done by pickle and/or is vulnerable to deserialization attacks:
+
+1. Blackbox: If the traffic data contains the symbol dot . at the end, it's very likely that the data was sent in serialization. For example the byte string mentioned above
+2. Whitebox: The uses of ```pickle/c_pickle/_pickle``` with ```load/loads``` in the code
