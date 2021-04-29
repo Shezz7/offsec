@@ -16,7 +16,7 @@ Problems arise when an attacker has the ability to control and manipulate the se
 
 Insecure deserialization vulnerabilities occur when applications deserialize objects without proper sanitization. When operating on untrusted data, the features of thse native deserialization mechanisms can be leveraged by a malicious actor. The attack against insecure deserialization have a wide gamut from denial-of-service to RCE.
 
-Many programming languages offer a native capability for serializing objects. These native formats usually offer more features than JSON or XML. Some of these capabilities include the customizability of the serialization process for example, magic functions run during serialization or deserialization. For programming language specific explanation of deserialization vulnerabilities:
+Many programming languages offer a native capability for serializing objects. These native formats usually offer more features than JSON or XML. Some of these capabilities include the customizability of the serialization process for example, magic functions run during serialization or deserialization. Almost every serialization framework or library for example in [python](https://docs.python.org/3/library/pickle.html) and [php](https://www.php.net/manual/en/function.unserialize.php), will strongly recommend deserializing data coming from a safe location. For programming language specific explanation of deserialization vulnerabilities:
 
 - [PHP](https://github.com/Shezz7/offsec/blob/master/insecure-deserialization/php-deserialization.md)
 - [Python](https://github.com/Shezz7/offsec/blob/master/insecure-deserialization/python-deserialization.md)
@@ -32,3 +32,10 @@ The only safe architectural pattern is to not accept serialized objects from unt
 - Logging deserialization exceptions and failures, such as when the incoming type is unexpected
 
 - Monitoring and alerting if a user deserializes constantly
+
+## References
+
+- <https://owasp.org/www-project-top-ten/2017/A8_2017-Insecure_Deserialization>
+- <https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html>
+- <https://portswigger.net/web-security/deserialization/exploiting>
+- <https://dan.lousqui.fr/explaining-and-exploiting-deserialization-vulnerability-with-python-en.html>
