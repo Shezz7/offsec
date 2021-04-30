@@ -21,6 +21,10 @@ Many programming languages offer a native capability for serializing objects. Th
 - [PHP](https://github.com/Shezz7/offsec/blob/master/insecure-deserialization/php-deserialization.md)
 - [Python](https://github.com/Shezz7/offsec/blob/master/insecure-deserialization/python-deserialization.md)
 
+## Exploiting Insecure Deserialization
+
+// Write here about different ways to exploit insecure deserialization
+
 ## Mitigation
 
 The only safe architectural pattern is to not accept serialized objects from untrusted sources or to use serialization mediums that only permit primitive data types. Mitigation actions specific to different programming languages will be covered in their respective sections. There are some language agnostic methods for deserializing safely. These include:
