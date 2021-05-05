@@ -23,7 +23,15 @@ Many programming languages offer a native capability for serializing objects. Th
 
 ## Exploiting Insecure Deserialization
 
-// Write here about different ways to exploit insecure deserialization
+There are several ways to exploit insecure deserialization. It really depends on the way the application is implemented and whether or not user input is unserialized in one way or another. Broadly, we can catergorize some exploitation techniques as follows:
+
+### Modifying object attributes
+
+An attacker can tamper the data and as long as they maintain the valid format of the serialized object, the deserialization process will create an object on the server-side with the modified attributs.  eg. If an attacker if able to manipulate and send the below mentioned byte stream by changing the boolean value of ```isAdmin``` and say the server uses this cookie to check admin access, the attacker could gain privileged access
+
+```O:4:"User":2:{s:8:"username";s:3:"bob";s:7:"isAdmin";b:0;}```
+
+This is not a very common scenario but merely a demonstration of how this vulnerability may be abused.
 
 ## Mitigation
 
