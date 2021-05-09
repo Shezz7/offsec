@@ -13,7 +13,7 @@ Some popular formats for serializing data include JSON and XML.
 
 ## Problem
 
-![serialize_deserialize](https://github.com/Shezz7/offsec/blob/master/insecure-deserialization/resources/malicious.png)
+![serialize_deserialize](https://portswigger.net/web-security/images/deserialization-infographic.jpg)
 
 Problems arise when an attacker has the ability to control and manipulate the serialized object and as a result cause malicious effects in the program. For example if an application takes in a serialized object as input from a user to determine the privileges of the user who is logged in, an attacker could modify the serialized object and authenticate as someone they are not. Unsafe deserialization could also lead to code execution in certain cases when an attacker embeds code into the serialized objects.
 
