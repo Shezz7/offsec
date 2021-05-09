@@ -1,8 +1,11 @@
 # Insecure Deserialization
 
-![serialize_deserialize](https://github.com/Shezz7/offsec/blob/master/insecure-deserialization/resources/serialize_deserialize.png)
+![serialize_deserialize](https://portswigger.net/web-security/images/deserialization-diagram.jpg)
 
-**Serialization** is the process of turning some object into a data format that can be restored later. Objects are often serialized in order to save them to storage or to send as part of communications.
+**Serialization** is the process of turning some object into a data format that can be restored later. Serialization makes it much simpler to:
+
+- Write complex data to inter-process memory, a file or a database
+- Send complex data for example, over a network, between different components of an application, API call etc.
 
 **Deserialization** is the reverse of serialization. It takes structured data from some format and rebuilds it into an object.
 
@@ -10,7 +13,7 @@ Some popular formats for serializing data include JSON and XML.
 
 ## Problem
 
-![serialize_deserialize](https://github.com/Shezz7/offsec/blob/master/insecure-deserialization/resources/malicious.png)
+![serialize_deserialize](https://portswigger.net/web-security/images/deserialization-infographic.jpg)
 
 Problems arise when an attacker has the ability to control and manipulate the serialized object and as a result cause malicious effects in the program. For example if an application takes in a serialized object as input from a user to determine the privileges of the user who is logged in, an attacker could modify the serialized object and authenticate as someone they are not. Unsafe deserialization could also lead to code execution in certain cases when an attacker embeds code into the serialized objects.
 
