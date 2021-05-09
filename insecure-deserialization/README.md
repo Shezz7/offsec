@@ -1,8 +1,11 @@
 # Insecure Deserialization
 
-![serialize_deserialize](https://github.com/Shezz7/offsec/blob/master/insecure-deserialization/resources/serialize_deserialize.png)
+![serialize_deserialize](https://portswigger.net/web-security/images/deserialization-diagram.jpg)
 
-**Serialization** is the process of turning some object into a data format that can be restored later. Objects are often serialized in order to save them to storage or to send as part of communications.
+**Serialization** is the process of turning some object into a data format that can be restored later. Serialization makes it much simpler to:
+
+- Write complex data to inter-process memory, a file or a database
+- Send complex data for example, over a network, between different components of an application, API call etc.
 
 **Deserialization** is the reverse of serialization. It takes structured data from some format and rebuilds it into an object.
 
