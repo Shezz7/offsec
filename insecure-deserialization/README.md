@@ -40,20 +40,24 @@ This is not a very common scenario but merely a demonstration of how this vulner
 
 Sometimes we could supply unexpected data types and modify the serialized object. This is particularly a problem due to PHP's weird logic. For example:
 
-- 1 == "1"           // true becuase PHP attempts to convert the string to an integer
+- 1 == "1"           // true becausese PHP attempts to convert the string to an integer
 - 1 == "1 and only"  // true because PHP converts the entire string to an integer based on the initial number
 - 0 == "test string" // true because there is no number in the string. PHP treats the entire string as the integer 0
 
 Consider a case when we have the following statement that validates a password:
 
 ```php
-$login = unserialize($_COOKIE)
-if ($login['password'] == $password){
+$input = unserialize($_COOKIE)
+if ($input['password'] == $password){
     // login successful
 }
 ```
 
 If the attacker modifies the password attribute so that it contains a 0 instead of the expected string, the login will be successful as long as the actual password doesn't start with a number.
+
+### Using application functionality
+
+An application's functionality can also be abused by using unexpected data to modify the application's intended functionality. Assume that a website has a "Delete user" functionality which kicks in everytime a user account is deleted. Say the user's profile picture is deleted by accessing the path to the image in the attribute ```$user->image_location```. If $user was created from a serialized object, this could be exploited by passing a modified object with the ```image_location``` set to an arbitrary file path. The attacker would then just delete their own user account and that would delete the arbitrary file as well
 
 ## Mitigation
 
