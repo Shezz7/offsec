@@ -36,6 +36,25 @@ An attacker can tamper the data and as long as they maintain the valid format of
 
 This is not a very common scenario but merely a demonstration of how this vulnerability may be abused.
 
+### Modifying data types
+
+Sometimes we could supply unexpected data types and modify the serialized object. This is particularly a problem due to PHP's weird logic. For example:
+
+- 1 == "1"           // true becuase PHP attempts to convert the string to an integer
+- 1 == "1 and only"  // true because PHP converts the entire string to an integer based on the initial number
+- 0 == "test string" // true because there is no number in the string. PHP treats the entire string as the integer 0
+
+Consider a case when we have the following statement that validates a password:
+
+```php
+$login = unserialize($_COOKIE)
+if ($login['password'] == $password){
+    // login successful
+}
+```
+
+If the attacker modifies the password attribute so that it contains a 0 instead of the expected string, the login will be successful as long as the actual password doesn't start with a number.
+
 ## Mitigation
 
 The only safe architectural pattern is to not accept serialized objects from untrusted sources or to use serialization mediums that only permit primitive data types. Mitigation actions specific to different programming languages will be covered in their respective sections. There are some language agnostic methods for deserializing safely. These include:
