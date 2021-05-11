@@ -61,7 +61,7 @@ bob
 admin
 ```
 
-## Manipulating the behaviour of pickling/unpickling
+## Manipulating the behavior of pickling/unpickling
 
 Pickle provides a way to execute arbitrary commands through the use of its ```__reduce__()``` method. To understand how this is possible, we must first take a look at the working of the ```__reduce__()``` method.
 
@@ -69,7 +69,7 @@ Pickle provides a way to execute arbitrary commands through the use of its ```__
 
 Pickle has certain restrictions as in not every object can be serialized. Objects such as file handles and others come with certain restrictions. The pickle docs give an overview of [what can be pickled and unpickled](https://docs.python.org/3/library/pickle.html#what-can-be-pickled-and-unpickled).
 
-For the special cases where an object cannot be pickled, pickle allows you to define custom behaviours of the pickling process for your class instances. Let's take an example of what happens when a file descriptor is serialized:
+For the special cases where an object cannot be pickled, pickle allows you to define custom behaviors of the pickling process for your class instances. Let's take an example of what happens when a file descriptor is serialized:
 
 ```python
 import pickle
@@ -113,7 +113,7 @@ print("Deserialized: ")
 print(vars(pickle.loads(saved_object)))    # Print vars of the deserialized object including the file descriptor
 ```
 
-The ```__reduce__()``` method according to the python [docs](https://docs.python.org/3/library/pickle.html#object.__reduce__) needs a tuple of atleast 2 things:
+The ```__reduce__()``` method according to the python [docs](https://docs.python.org/3/library/pickle.html#object.__reduce__) needs a tuple of at least 2 things:
 
 1. A blank object class to call. In this case, ```self.__class__```
 2. A tuple of arguments to pass to the class constructor. In this case it is a single string ```self.some_file``` which is the path to the file to open.

@@ -130,7 +130,7 @@ function __wakeup(){
   }
 ```
 
-This function executes whatever is inside the ```hook``` property within the object that is undergoing deserialization. If we were able to control the input to the object undergoing deserialization, we could effectively acheive RCE.
+This function executes whatever is inside the ```hook``` property within the object that is undergoing deserialization. If we were able to control the input to the object undergoing deserialization, we could effectively achieve RCE.
 
 ## PHP Object injection examples
 
@@ -153,7 +153,7 @@ class Example
 $user_input = unserialize($_COOKIE['data']);
 ```
 
-In the above example, since the input ```data``` cookie is unserialized, an attacker could set the cookie with a serialized string. The string when unserialized will call the wakeup function and the ```hook``` property will get executed. We could inject this property with malicious code and acheive RCE as follows:
+In the above example, since the input ```data``` cookie is unserialized, an attacker could set the cookie with a serialized string. The string when unserialized will call the wakeup function and the ```hook``` property will get executed. We could inject this property with malicious code and achieve RCE as follows:
 
 ```php
 class Example
