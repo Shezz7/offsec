@@ -25,7 +25,7 @@ Running the code we get a serialized string that represents the ```user``` objec
 
 ```console
 <class 'bytes'>
-b'\x80\x04\x95%\x00\x00\x00\x00\x00\x00\x00}\x94(\x8c\x08username\x94\x8c\x03bob\x94\x8c\x04role\x94\x8c\x05admin\x94u.'
+b'\x80\x04\x95\x15\x00\x00\x00\x00\x00\x00\x00\x8c\x08__main__\x94\x8c\x04User\x94\x93\x94.'
 ```
 
 This has now converted an object of type *dict* to a stream of bytes.
