@@ -63,6 +63,12 @@ An application's functionality can also be abused by using unexpected data to mo
 
 Magic methods are special functions that are not explicitly invoked. Instead, they are automatically invoked when a certain event or scenario occurs eg. creating an object. One of the most examples in PHP is ```__construct()``` which is invoked whenever invoked whenever an object of the class is instantiated. Similarly python has the ```__init()``` method. Typically magic mehtods contain code to initialize attributes of the instance, however, magic methods can be abused to execute malicious code.
 
+### Injecting arbitrary objects
+
+ Deserialization methods do not typically check what they are deserializing. This means that you can pass in objects of any serializable class that is available to the website, and the object will be deserialized. This effectively allows an attacker to create instances of arbitrary classes. The fact that this object is not of the expected class does not matter. The unexpected object type might cause an exception in the application logic, but the malicious object will already be instantiated by then.
+
+If an attacker has access to the source code, they can study all of the available classes in detail. To construct a simple exploit, they would look for classes containing deserialization magic methods, then check whether any of them perform dangerous operations on controllable data. The attacker can then pass in a serialized object of this class to use its magic method for an exploit.
+
 ## Mitigation
 
 The only safe architectural pattern is to not accept serialized objects from untrusted sources or to use serialization mediums that only permit primitive data types. Mitigation actions specific to different programming languages will be covered in their respective sections. There are some language agnostic methods for deserializing safely. These include:
