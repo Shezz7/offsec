@@ -59,6 +59,10 @@ If the attacker modifies the password attribute so that it contains a 0 instead 
 
 An application's functionality can also be abused by using unexpected data to modify the application's intended functionality. Assume that a website has a "Delete user" functionality which kicks in everytime a user account is deleted. Say the user's profile picture is deleted by accessing the path to the image in the attribute ```$user->image_location```. If $user was created from a serialized object, this could be exploited by passing a modified object with the ```image_location``` set to an arbitrary file path. The attacker would then just delete their own user account and that would delete the arbitrary file as well
 
+### Magic methods
+
+Magic methods are special functions that are not explicitly invoked. Instead, they are automatically invoked when a certain event or scenario occurs eg. creating an object. One of the most examples in PHP is ```__construct()``` which is invoked whenever invoked whenever an object of the class is instantiated. Similarly python has the ```__init()``` method. Typically magic mehtods contain code to initialize attributes of the instance, however, magic methods can be abused to execute malicious code.
+
 ## Mitigation
 
 The only safe architectural pattern is to not accept serialized objects from untrusted sources or to use serialization mediums that only permit primitive data types. Mitigation actions specific to different programming languages will be covered in their respective sections. There are some language agnostic methods for deserializing safely. These include:
