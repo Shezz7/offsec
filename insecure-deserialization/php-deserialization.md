@@ -126,11 +126,11 @@ It may be possible to get RCE using PHP object injection through one of the magi
 
 ```php
 function __wakeup(){
-      if (isset($this->hook)) eval($this->hook);
+      if (isset($this->input)) eval($this->input);
   }
 ```
 
-This function executes whatever is inside the ```hook``` property within the object that is undergoing deserialization. If we were able to control the input to the object undergoing deserialization, we could effectively achieve RCE.
+This function executes whatever is inside the ```input``` property within the object that is undergoing deserialization. If we were able to control the input to the object undergoing deserialization, we could effectively achieve RCE.
 
 ## PHP Object injection examples
 
@@ -153,7 +153,7 @@ class Example
 $user_input = unserialize($_COOKIE['data']);
 ```
 
-In the above example, since the input ```data``` cookie is unserialized, an attacker could set the cookie with a serialized string. The string when unserialized will call the wakeup function and the ```hook``` property will get executed. We could inject this property with malicious code and achieve RCE as follows:
+In the above example, since the input ```data``` cookie is unserialized, an attacker could set the cookie with a serialized string. The string when unserialized will call the wakeup function and the ```input``` property will get executed. We could inject this property with malicious code and achieve RCE as follows:
 
 ```php
 class Example
@@ -178,7 +178,7 @@ Passing the string above into the ```data``` cookie, the ```system()``` function
 2. The program calls ```unserialize()``` on the ```data``` cookie
 3. Because the ```data``` cookie is a serialized ```Example``` object, ```unserialize()``` instantiates a new ```Example``` object
 4. The magic method ```__wakeup()``` is available so at this point, it is called
-5. The ```hook``` property of the object is checked for and if it is not NULL, it is executed through ```eval()```
+5. The ```input``` property of the object is checked for and if it is not NULL, it is executed through ```eval()```
 
 ### Example 2: RCE through variable injection
 
